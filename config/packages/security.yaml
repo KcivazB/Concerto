@@ -20,5 +20,7 @@ security:
 
     access_control:
         - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/invitation/accept, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^//magic-link/use, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/connect, roles: IS_AUTHENTICATED_ANONYMOUSLY }        
         - { path: ^/*, roles: IS_AUTHENTICATED_FULLY }

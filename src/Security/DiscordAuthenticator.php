@@ -5,6 +5,7 @@ namespace App\Security;
 
 use App\Entity\User;
 use App\Entity\Project;
+use App\Service\FactoryService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,12 +28,14 @@ class DiscordAuthenticator extends AbstractAuthenticator
     private $clientRegistry;
     private $entityManager;
     private $router;
+    private $factoryService;
 
-    public function __construct(ClientRegistry $clientRegistry, EntityManagerInterface $entityManager, RouterInterface $router)
+    public function __construct(ClientRegistry $clientRegistry, EntityManagerInterface $entityManager, RouterInterface $router, FactoryService $factoryService)
     {
         $this->clientRegistry = $clientRegistry;
         $this->entityManager = $entityManager;
         $this->router = $router;
+        $this->factoryService = $factoryService;
     }
 
     public function supports(Request $request): ?bool
@@ -51,7 +54,6 @@ class DiscordAuthenticator extends AbstractAuthenticator
 
             // Extract user details
             $discordId = $discordUser->getId();
-            $username = $discordUser->getUsername();
             $avatarUrl = "https://cdn.discordapp.com/avatars/" . $discordUser->getId() . "/" . $discordUser->getAvatarHash() . ".png";
             $email = $discordUser->getEmail();
 
@@ -62,26 +64,17 @@ class DiscordAuthenticator extends AbstractAuthenticator
                 // Check if a user with the same email exists
                 $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $email]);
                 if (!$user) {
-                    // Generate a random password for new users
-                    $randomPassword = sha1(random_bytes(18));
-                    
-                    // User does not exist, create a new User entity
-                    $user = new User();
-                    $user->setDiscordId($discordId);
-                    $user->setUsername($username);
-                    $user->setAvatar($avatarUrl);
-                    $user->setPassword($randomPassword);
+                    $username = $discordUser->getUsername();
+
+                    $user = $this->factoryService->generateUser($username, $avatarUrl);
+                    $newProject = $this->factoryService->generateProject($user);
+
+                    $this->entityManager->persist($newProject);
                 }
-                
-                $newProject = new Project();
-                $newProject
-                    ->setTitle("My first Project")
-                    ->setDescription("This is a simple description of your first project")
-                    ->setOwner($user)
-                    ->setStartDate(new \DateTime());
-                    
+
+                $user->setDiscordId($discordId);
+
                 $this->entityManager->persist($user);
-                $this->entityManager->persist($newProject);
                 $this->entityManager->flush();
             }
 

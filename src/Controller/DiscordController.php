@@ -35,27 +35,6 @@ class DiscordController extends AbstractController
      */
     public function connectCheckAction(Request $request, ClientRegistry $clientRegistry): Response
     {
-        // Handle the authentication and user retrieval logic
-        /** @var \KnpU\OAuth2ClientBundle\Client\Provider\DiscordClient $client */
-        $client = $clientRegistry->getClient('discord');
-
-        try {
-            // the exact class depends on which provider you're using
-            /** @var \League\OAuth2\Client\Provider\DiscordResourceOwner $discordUser */
-            $discordUser = $client->fetchUser();
-
-            // do something with all this new power!
-            // e.g. $username = $discordUser->getUsername();
-            // $email = $discordUser->getEmail();
-            // $avatarUrl = $discordUser->getAvatarUrl();
-
-            // Handle user creation/update logic here
-
-            return $this->redirectToRoute('dashboard'); // Redirect to dashboard or any other route
-        } catch (\Exception $e) {
-            // something went wrong!
-            // probably you should return the reason to the user
-            return new Response('Authentication failed: ' . $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
+       
     }
 }

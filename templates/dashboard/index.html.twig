@@ -83,7 +83,8 @@
         <div class="container">
             <div class="row mt-5">
                 <div class="col">
-                    <h1>Welcome, {{ app.user.username|title }}</h1>
+                    <h1>Welcome, {{ app.user.firstName and app.user.lastName ? (app.user.firstName ~ ' ' ~ app.user.lastName)|title : app.user.username|title }} </h1>
+
                 </div>
                 <div class="col text-right">
                     <button class="btn btn-secondary modalbox-project" data-toggle="modal" data-target="#projectModal" data-content-url="{{ path('project_new') }}">
@@ -147,8 +148,19 @@
                     </div>
                 </div>
             </div>
+            <!-- Project Modal -->
+            <div class="modal fade" id="projectModal" tabindex="-1" role="dialog" aria-labelledby="projectModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div id="projectModalContent"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     {% endif %}
+
 
     <style>
         .project-card {

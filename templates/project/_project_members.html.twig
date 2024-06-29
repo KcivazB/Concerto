@@ -9,10 +9,10 @@
         {% endif %}
     </div>
     <ul class="list-group list-group-flush">
-        <li class="project-owner list-group-item ">{{ project.owner.username|title }} 👑</li>
+        <li class="project-owner list-group-item ">{{ project.owner.firstName and project.owner.lastName ? (project.owner.firstName ~ ' ' ~ project.owner.lastName)|title : project.owner.username|title }} 👑</li>
 
         {% for member in project.contributors %}
-            <li class="list-group-item">{{ member.username|title }}</li>
+            <li class="list-group-item">{{ member.firstName and member.lastName ? (member.firstName ~ ' ' ~ member.lastName)|title : member.username|title }}</li>
         {% endfor %}
     </ul>
 </div>

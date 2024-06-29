@@ -50,8 +50,14 @@ $(document).ready(function() {
         $(this).modal('hide');
     });
 
+    $('.modalbox-edit-profile').on('click', function(event) {
+        event.preventDefault();
+        var contentUrl = $(this).data('content-url');
+        openModal('#profileEditModal', contentUrl, '#profileEditModalContent');
+    });
+
     // Handle form submission inside modals
-    $('#ideaModal, #commentsModal, #editProjectModal, #editIdeaModal, #inviteMemberModal').on('submit', 'form', function(event) {
+    $('#ideaModal, #commentsModal, #editProjectModal, #editIdeaModal, #inviteMemberModal, #profileEditModal').on('submit', 'form', function(event) {
         event.preventDefault();
         
         var form = $(this);

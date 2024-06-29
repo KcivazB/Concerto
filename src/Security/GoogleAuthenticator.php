@@ -5,6 +5,7 @@ namespace App\Security;
 use App\Entity\User;
 use App\Entity\Project;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Service\FactoryService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
@@ -23,12 +24,14 @@ class GoogleAuthenticator extends AbstractAuthenticator
     private $clientRegistry;
     private $entityManager;
     private $router;
+    private $factoryService;
 
-    public function __construct(ClientRegistry $clientRegistry, EntityManagerInterface $entityManager, RouterInterface $router)
+    public function __construct(ClientRegistry $clientRegistry, EntityManagerInterface $entityManager, RouterInterface $router, FactoryService $factoryService)
     {
         $this->clientRegistry = $clientRegistry;
         $this->entityManager = $entityManager;
         $this->router = $router;
+        $this->factoryService = $factoryService;
     }
 
     public function supports(Request $request): ?bool
@@ -55,29 +58,15 @@ class GoogleAuthenticator extends AbstractAuthenticator
                 $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $email]);
 
                 if (!$user) {
-                    $random = sha1(random_bytes(18));
+                    $username =  $googleUser->getName();
 
-                    $user = new User();
-                    $user->setEmail($email);
-                    $user->setUsername($googleUser->getName());
-                    $user->setPassword($random);
-                }
+                    $user = $this->factoryService->generateUser($username, $avatarUrl);
+                    $newProject = $this->factoryService->generateProject($user);
 
-                // Liez l'utilisateur existant ou nouvel utilisateur avec le googleId
-                $user->setGoogleId($googleId);
-                $user->setAvatar($avatarUrl);
-
-                if (!$user->getId()) {
-                    $newProject = new Project();
-                    $newProject
-                        ->setTitle("My first Project")
-                        ->setDescription("This is a simple description of your first project")
-                        ->setOwner($user)
-                        ->setStartDate(new \DateTime());
-
-                        
                     $this->entityManager->persist($newProject);
                 }
+
+                $user->setGoogleId($googleId);
 
                 $this->entityManager->persist($user);
                 $this->entityManager->flush();

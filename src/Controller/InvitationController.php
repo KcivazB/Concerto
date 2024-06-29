@@ -39,7 +39,7 @@ class InvitationController extends AbstractController
                 $entityManager->remove($invitation);
                 $entityManager->flush();
 
-                return $this->redirectToRoute('project_view', ['id' => $project->getId()]);
+                return $this->redirectToRoute('dashboard');
             }
         } else {
             // New user
