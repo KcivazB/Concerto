@@ -62,7 +62,7 @@ class GithubAuthenticator extends AbstractAuthenticator
                 // Check if a user with the same email exists
                 $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $email]);
                 if (!$user) {
-                    $user = $this->factoryService->generateUser($login, $avatarUrl);
+                    $user = $this->factoryService->generateUser($login, $email, $avatarUrl);
                     $newProject = $this->factoryService->generateProject($user);
 
                     $this->entityManager->persist($newProject);

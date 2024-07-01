@@ -66,7 +66,7 @@ class DiscordAuthenticator extends AbstractAuthenticator
                 if (!$user) {
                     $username = $discordUser->getUsername();
 
-                    $user = $this->factoryService->generateUser($username, $avatarUrl);
+                    $user = $this->factoryService->generateUser($username, $email, $avatarUrl);
                     $newProject = $this->factoryService->generateProject($user);
 
                     $this->entityManager->persist($newProject);

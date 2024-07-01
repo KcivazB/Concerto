@@ -1,15 +1,15 @@
-<?php
+<?php 
 
 namespace App\Form;
 
 use App\Entity\Tag;
 use App\Entity\Idea;
 use App\Entity\Status;
+use App\Entity\TagCategory;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
@@ -18,34 +18,32 @@ class IdeaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title', TextType::class)
-            ->add('description', TextType::class)
+            ->add('title', TextType::class, [
+                'label' => 'Title',
+                'attr' => ['class' => 'form-control mb-3'],
+            ])
+            ->add('description', TextType::class, [
+                'label' => 'Description',
+                'attr' => ['class' => 'form-control mb-3'],
+            ])
             ->add('tags', EntityType::class, [
-                // looks for choices from this entity
                 'class' => Tag::class,
-            
-                // uses the tag.name property as the visible option string
                 'choice_label' => 'title',
-            
-                // used to render a select box, check boxes or radios
+                'group_by' => function($tag) {
+                    return $tag->getCategory() ? $tag->getCategory()->getTitle() : 'Other';
+                },
                 'multiple' => true,
-                // 'expanded' => true,
+                'attr' => ['class' => 'form-select mb-3', 'aria-label' => 'Select tags'],
             ])
             ->add('status', EntityType::class, [
-                // looks for choices from this entity
                 'class' => Status::class,
-            
-                // uses the User.username property as the visible option string
                 'choice_label' => 'name',
-            
-                // used to render a select box, check boxes or radios
-                // 'multiple' => true,
-                // 'expanded' => true,
+                'attr' => ['class' => 'form-select mb-3', 'aria-label' => 'Select status'],
             ])
             ->add('save', SubmitType::class, [
-                'attr' => ['class' => 'save'],
+                'label' => 'Save',
+                'attr' => ['class' => 'btn btn-primary'],
             ]);
-        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

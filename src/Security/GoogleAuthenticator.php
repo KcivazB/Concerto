@@ -60,7 +60,7 @@ class GoogleAuthenticator extends AbstractAuthenticator
                 if (!$user) {
                     $username =  $googleUser->getName();
 
-                    $user = $this->factoryService->generateUser($username, $avatarUrl);
+                    $user = $this->factoryService->generateUser($username, $email, $avatarUrl);
                     $newProject = $this->factoryService->generateProject($user);
 
                     $this->entityManager->persist($newProject);

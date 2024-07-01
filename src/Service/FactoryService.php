@@ -14,14 +14,15 @@ class FactoryService {
         $this->entityManager = $entityManager;
     }
 
-    public function generateUser($username, $avatarUrl = null){
+    public function generateUser($username, $email, $avatarUrl = null){
         $randomPassword = sha1(random_bytes(18));
                     
         // User does not exist, create a new User entity
         $user = new User();
-        $user->setUsername($username);
-        $user->setAvatar($avatarUrl);
-        $user->setPassword($randomPassword);
+        $user->setEmail($email)
+            ->setUsername($username)
+            ->setAvatar($avatarUrl)
+            ->setPassword($randomPassword);
         
         $this->entityManager->persist($user);
         $this->entityManager->flush();

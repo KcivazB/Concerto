@@ -2,10 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\ProjectRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Entity\Tag;
+use App\Entity\Idea;
+use App\Entity\User;
+use App\Entity\Invitation;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ProjectRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass=ProjectRepository::class)
@@ -60,11 +64,17 @@ class Project
      */
     private $invitations;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Tag::class, inversedBy="projects")
+     */
+    private $tags;
+
     public function __construct()
     {
         $this->ideas = new ArrayCollection();
         $this->contributors = new ArrayCollection();
         $this->invitations = new ArrayCollection();
+        $this->tags = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -223,4 +233,29 @@ class Project
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Tag>
+     */
+    public function getTags(): Collection
+    {
+        return $this->tags;
+    }
+
+    public function addTag(Tag $tag): self
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags[] = $tag;
+        }
+
+        return $this;
+    }
+
+    public function removeTag(Tag $tag): self
+    {
+        $this->tags->removeElement($tag);
+
+        return $this;
+    }
+    
 }

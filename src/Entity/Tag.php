@@ -39,9 +39,20 @@ class Tag
      */
     private $ideas;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Project::class, mappedBy="tags")
+     */
+    private $projects;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=TagCategory::class, inversedBy="tags")
+     */
+    private $category;
+
     public function __construct()
     {
         $this->ideas = new ArrayCollection();
+        $this->projects = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -111,4 +122,44 @@ class Tag
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Idea>
+     */
+    public function getProjects(): Collection
+    {
+        return $this->ideas;
+    }
+
+    public function addProject(Project $project): self
+    {
+        if (!$this->projects->contains($project)) {
+            $this->projects[] = $project;
+            $project->addTag($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProject(Idea $project): self
+    {
+        if ($this->projects->removeElement($project)) {
+            $project->removeTag($this);
+        }
+
+        return $this;
+    }
+
+    public function getCategory(): ?TagCategory
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?TagCategory $category): self
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+    
 }

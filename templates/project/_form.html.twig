@@ -22,6 +22,11 @@
                             {{ form_widget(form.description, { 'attr': {'class': 'form-control'} }) }}
                         </div>
 
+                        <div class="col">
+                            {{ form_label(form.tags) }}
+                            {{ form_widget(form.tags, { 'attr': {'class': 'form-control', 'multiple': 'multiple', 'size': '10'} }) }}
+                        </div>
+
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">{{ project.title ? 'Update Project' : 'Create Project' }}</button>
                         </div>
