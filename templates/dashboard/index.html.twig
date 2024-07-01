@@ -144,6 +144,11 @@
                                             <div class="card-body">
                                                 <h5 class="card-title">{{ collab.title|capitalize }}</h5>
                                                 <p class="card-text text-muted">{{ collab.description }}</p>
+                                                <div class="mt-3">
+                                                    {% for tag in project.tags %}
+                                                        <span class="badge" style="background-color: {{ tag.color }}; color: #fff;">{{ tag.title }}</span>
+                                                    {% endfor %}
+                                                </div>
                                             </div>
                                         </a>
                                     </div>
