@@ -36,7 +36,7 @@ Concerto is designed to be a lightweight, intuitive tool for managing your ideas
 
 1. **Clone the repository**:
     ```bash
-    git clone https://github.com/ZavickB/concerto.git
+    git clone https://github.com/yourusername/concerto.git
     cd concerto
     ```
 
