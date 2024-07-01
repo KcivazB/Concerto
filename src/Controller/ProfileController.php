@@ -19,6 +19,10 @@ class ProfileController extends AbstractController
     {
         $user = $this->getUser(); // Assuming you have user authentication
 
+        if (!$user) {
+            throw $this->createNotFoundException('The user does not exist');
+        }
+        
         return $this->render('profile/index.html.twig', [
             'user' => $user,
         ]);
@@ -29,6 +33,7 @@ class ProfileController extends AbstractController
      */
     public function edit(Request $request, EntityManagerInterface $entityManager): Response
     {
+
         $userId = $this->getUser()->getId();
         $user = $entityManager->getRepository(User::class)->find($userId);
 

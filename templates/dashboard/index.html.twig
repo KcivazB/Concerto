@@ -188,17 +188,11 @@
     <script>
         // Toggle arrow icons for collapsible sections using jQuery
         $(document).ready(function () {
-            console.log("Document ready");
-
-            $('.toggle-section').click(function () {
-                console.log("Toggle section clicked");
-                
+            $('.toggle-section').click(function () {                
                 var icon = $(this).find('i');
                 if (icon.hasClass('bi-chevron-up')) {
-                    console.log("Changing icon from up to down");
                     icon.removeClass('bi-chevron-up').addClass('bi-chevron-down');
                 } else {
-                    console.log("Changing icon from down to up");
                     icon.removeClass('bi-chevron-down').addClass('bi-chevron-up');
                 }
             });
