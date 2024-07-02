@@ -67,6 +67,10 @@ main {
     padding: 2rem;
 }
 
+.progress-bar.bg-info, .progress-bar-animated.bg-info, .progress-bar-striped.bg-info{
+    background-color: var(--color-bleu) !important;
+}
+
 /* Button styles */
 .btn-primary, .btn-secondary, .btn-yellow {
     color: var(--color-white);

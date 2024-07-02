@@ -18,6 +18,22 @@
                 <span class="badge" style="background-color: {{ tag.color }}; color: #fff;">{{ tag.title }}</span>
             {% endfor %}
         </div>
+        <!-- Progress Bar -->
+        <div class="mt-4">
+            <h5>Completion Progress</h5>
+            <div class="progress">
+                {% if project.completion == 100 %}
+                    <div class="progress-bar-striped bg-success" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                {% elseif project.completion > 0 %}
+                    <div class="progress-bar-striped bg-info progress-bar-animated" role="progressbar" style="width: {{ project.completion }}%;" aria-valuenow="{{ project.completion }}" aria-valuemin="0" aria-valuemax="100"></div>
+                {% else %}
+                    <div class="progress-bar-striped bg-secondary" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="mt-3">
+            <p><strong>Start Date:</strong> {{ project.startDate|date('M d, Y') }} </p>
+        </div>
     </div>
 
     <div class="col-md-4">
@@ -25,7 +41,7 @@
     </div>
 </div>
 
-<!-- Modal for confirming account deletion -->
+<!-- Modal for confirming project deletion -->
 <div class="modal fade" id="deleteProjectModal" tabindex="-1" role="dialog" aria-labelledby="deleteAccountModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -68,10 +84,10 @@ $(document).ready(function() {
                 window.location.href = '{{ path('dashboard') }}';
             },
             error: function(xhr) {
-                console.error('Failed to delete the account.');
+                console.error('Failed to delete the project.');
             }
         });
     }
-});
 
+});
 </script>

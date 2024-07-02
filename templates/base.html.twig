@@ -43,7 +43,12 @@
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="bi bi-person-circle"></i> 
+                                {% if (app.user.avatar) %}
+                                    <img src="{{ app.user.avatar }}" class="img-fluid rounded-circle nav-profile-picture" alt="Profile Picture">
+                                {% else %}
+                                    <i class="bi bi-person-circle"></i> 
+                            {% endif %}
+
                             {{ app.user.firstName and app.user.lastName ? (app.user.firstName ~ ' ' ~ app.user.lastName)|title : app.user.username|title }}
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -80,10 +85,15 @@
         background-repeat: no-repeat;
         background-attachment: fixed; /* Keep the background fixed on scroll */
     }
-     .navbar-nav.ml-auto .dropdown-menu {
+    .navbar-nav.ml-auto .dropdown-menu {
         right: 0;
         left: auto;
         margin-top: 0.5rem; /* Adjust as needed */
+    }
+    .nav-profile-picture {
+        width: 30px;
+        height: 30px;
+        object-fit: cover;
     }
 </style>
 

@@ -1,5 +1,3 @@
-{# templates/magic_link/request.html.twig #}
-
 {% extends 'base.html.twig' %}
 
 {% block title %}Dashboard{% endblock %}
@@ -103,24 +101,37 @@
                         </span>
                     </h3>
                     <div class="collapse show" id="personalProjects">
-                        <div class="row mt-3">
-                            {% for project in projects %}
-                                <div class="col-md-4 mb-4">
-                                    <div class="card shadow-sm project-card">
-                                        <a href="{{ path('project_view', {'id': project.id}) }}" class="card-link">
-                                            <div class="card-body">
-                                                <h5 class="card-title">{{ project.title|capitalize }}</h5>
-                                                <p class="card-text text-muted">{{ project.description }}</p>
-                                                <div class="mt-3">
-                                                    {% for tag in project.tags %}
-                                                        <span class="badge" style="background-color: {{ tag.color }}; color: #fff;">{{ tag.title }}</span>
-                                                    {% endfor %}
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </div>
+                        <div class="row">
+                            {% if projects is empty %}
+                                <div class="col">
+                                    <p class="text-muted">You don't have any personal projects yet.</p>
                                 </div>
-                            {% endfor %}
+                            {% else %}
+                                {% for project in projects %}
+                                    <div class="col-md-4 mb-4">
+                                        <div class="card shadow-sm project-card">
+                                            <a href="{{ path('project_view', {'id': project.id}) }}" class="card-link">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">{{ project.title|capitalize }}</h5>
+                                                    <div class="progress my-2">
+                                                        {% if project.completion == "100" %}
+                                                            <div class="progress-bar-striped bg-success progress-bar" role="progressbar" style="width: {{ project.completion }}%;" aria-valuenow="{{ project.completion }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        {% else %}
+                                                            <div class="progress-bar-striped bg-info progress-bar-animated" role="progressbar" style="width: {{ project.completion }}%;" aria-valuenow="{{ project.completion }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        {% endif %}
+                                                    </div>
+                                                    <p class="card-text text-muted">{{ project.description }}</p>
+                                                    <div class="mt-0">
+                                                        {% for tag in project.tags %}
+                                                            <span class="badge" style="background-color: {{ tag.color }}; color: #fff;">{{ tag.title }}</span>
+                                                        {% endfor %}
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -136,24 +147,37 @@
                         </span>
                     </h3>
                     <div class="collapse show" id="sharedProjects">
-                        <div class="row mt-3">
-                            {% for collab in collabs %}
-                                <div class="col-md-4 mb-4">
-                                    <div class="card shadow-sm project-card">
-                                        <a href="{{ path('project_view', {'id': collab.id}) }}" class="card-link">
-                                            <div class="card-body">
-                                                <h5 class="card-title">{{ collab.title|capitalize }}</h5>
-                                                <p class="card-text text-muted">{{ collab.description }}</p>
-                                                <div class="mt-3">
-                                                    {% for tag in project.tags %}
-                                                        <span class="badge" style="background-color: {{ tag.color }}; color: #fff;">{{ tag.title }}</span>
-                                                    {% endfor %}
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </div>
+                        <div class="row">
+                            {% if collabs is empty %}
+                                <div class="col">
+                                    <p class="text-muted">You don't have any shared projects yet.</p>
                                 </div>
-                            {% endfor %}
+                            {% else %}
+                                {% for collab in collabs %}
+                                    <div class="col-md-4 mb-4">
+                                        <div class="card shadow-sm project-card">
+                                            <a href="{{ path('project_view', {'id': collab.id}) }}" class="card-link">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">{{ collab.title|capitalize }}</h5>
+                                                    <div class="progress my-2">
+                                                        {% if collab.completion == "100" %}
+                                                            <div class="progress-bar-striped bg-success progress-bar" role="progressbar" style="width: {{ collab.completion }}%;" aria-valuenow="{{ collab.completion }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        {% else %}
+                                                            <div class="progress-bar-striped bg-info progress-bar-animated" role="progressbar" style="width: {{ collab.completion }}%;" aria-valuenow="{{ collab.completion }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        {% endif %}
+                                                    </div>
+                                                    <p class="card-text text-muted">{{ collab.description }}</p>
+                                                    <div class="tags">
+                                                        {% for tag in collab.tags %}
+                                                            <span class="badge" style="background-color: {{ tag.color }}; color: #fff;">{{ tag.title }}</span>
+                                                        {% endfor %}
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -171,7 +195,6 @@
         </div>
     {% endif %}
 
-
     <style>
         .project-card {
             height: 100%;
@@ -182,6 +205,15 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+        }
+
+        .progress {
+            height: 10px;
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            transition: width 0.3s ease-in-out;
         }
     </style>
     
