@@ -1,7 +1,7 @@
 <div class="row mt-10">
     <div class="col-md-8">
         <div class="d-flex align-items-center mb-2">
-            <h1 class="mr-3">{{ project.title|capitalize }}</h1>
+            <h1 class="mr-3">{{ project.title }}</h1>
             {% if app.user == project.owner %}
                 <button type="button" class="btn btn-outline-secondary modalbox-edit-project mr-3" id="editProjectBtn" data-toggle="modal" data-target="#modal" data-content-url="{{ path('project_edit', {'id': project.id}) }}">
                     <i class="bi bi-pencil-square"></i> Edit
@@ -11,7 +11,7 @@
                 </button>
             {% endif %}
         </div>
-        <p>{{ project.description|capitalize }}</p>
+        <p>{{ project.description }}</p>
         
         <div class="mt-3">
             {% for tag in project.tags %}
@@ -55,7 +55,7 @@
                 Are you sure you want to delete your project?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
                 <button type="button" class="btn btn-danger" id="confirmDeleteProjectBtn">Delete</button>
             </div>
         </div>

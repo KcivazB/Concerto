@@ -16,12 +16,12 @@
                 <div class="col-md-6">
                     <div class="row">
                         <div class="col-6 mb-3">
-                            <a href="{{ path('connect_google') }}" class="btn btn-primary btn-lg btn-block">
+                            <a href="{{ path('connect_google') }}" class="btn btn-blue btn-lg btn-block">
                                 <i class="bi bi-google"></i> Connect with Google
                             </a>
                         </div>
                         <div class="col-6 mb-3">
-                            <a href="{{ path('connect_github') }}" class="btn btn-secondary btn-lg btn-block">
+                            <a href="{{ path('connect_github') }}" class="btn btn-orange btn-lg btn-block">
                                 <i class="bi bi-github"></i> Connect with GitHub
                             </a>
                         </div>
@@ -85,7 +85,7 @@
 
                 </div>
                 <div class="col text-right">
-                    <button class="btn btn-secondary modalbox-project" data-toggle="modal" data-target="#projectModal" data-content-url="{{ path('project_new') }}">
+                    <button class="btn btn-primary modalbox-project" data-toggle="modal" data-target="#projectModal" data-content-url="{{ path('project_new') }}">
                         <i class="bi bi-plus"></i> New Project
                     </button>
                 </div>
@@ -112,7 +112,7 @@
                                         <div class="card shadow-sm project-card">
                                             <a href="{{ path('project_view', {'id': project.id}) }}" class="card-link">
                                                 <div class="card-body">
-                                                    <h5 class="card-title">{{ project.title|capitalize }}</h5>
+                                                    <h5 class="card-title">{{ project.title }}</h5>
                                                     <div class="progress my-2">
                                                         {% if project.completion == "100" %}
                                                             <div class="progress-bar-striped bg-success progress-bar" role="progressbar" style="width: {{ project.completion }}%;" aria-valuenow="{{ project.completion }}" aria-valuemin="0" aria-valuemax="100"></div>
@@ -158,7 +158,7 @@
                                         <div class="card shadow-sm project-card">
                                             <a href="{{ path('project_view', {'id': collab.id}) }}" class="card-link">
                                                 <div class="card-body">
-                                                    <h5 class="card-title">{{ collab.title|capitalize }}</h5>
+                                                    <h5 class="card-title">{{ collab.title }}</h5>
                                                     <div class="progress my-2">
                                                         {% if collab.completion == "100" %}
                                                             <div class="progress-bar-striped bg-success progress-bar" role="progressbar" style="width: {{ collab.completion }}%;" aria-valuenow="{{ collab.completion }}" aria-valuemin="0" aria-valuemax="100"></div>

@@ -7,6 +7,8 @@
     --color-yellow: #FEA701;
     --color-dark-blue: #395264;
     --color-gray: ##6c757d;
+    --color-red: #dc3545;
+    --color-darker-red: #a71d2a;
 
     /* Additional colors for text and background */
     --color-background: #f4f4f9;
@@ -73,34 +75,80 @@ main {
 }
 
 /* Button styles */
-.btn-primary, .btn-secondary, .btn-yellow {
+.btn-primary, .btn-warning, .btn-danger, .btn-blue, .btn-darkBlue, .btn-yellow, .btn-orange {
     color: var(--color-white);
     transition: background-color 0.3s ease, border-color 0.3s ease;
-}
-
-.btn-primary, .btn-primary:hover {
-    background-color: var(--color-orange);
-    border-color: var(--color-orange);
-}
-
-.btn-secondary, .btn-secondary:hover {
-    background-color: var(--color-blue);
-    border-color: var(--color-blue);
-}
-
-.btn-yellow, .btn-yellow:hover {
-    background-color: var(--color-yellow);
-    color:white;
-    border-color: var(--color-yellow);
     cursor: pointer;
 }
 
-.btn-darkBlue, .btn-darkBlue:hover {
-    background-color: var(--color-dark-blue);
-    color:white;
-    border-color: var(--color-dark-blue);
-    cursor: pointer;
-}
+
+/** PRIMARY **/
+    .text-primary {
+        color: var(--color-blue) !important; 
+    }
+    .btn-primary {
+        background-color:var(--color-blue); 
+        border-color: var(--color-blue); 
+    }
+    .btn-primary:hover {
+        background-color: var(--color-dark-blue); 
+        border-color: var(--color-dark-blue); 
+    }
+
+/** WARNING **/
+    .text-warning {
+        color: var(--color-yellow) !important; 
+    }
+    .btn-warning {
+        background-color: var(--color-yellow); 
+        border-color: var(--color-yellow); 
+    }
+    .btn-warning:hover {
+        background-color: var(--color-orange);
+        border-color: var(--color-orange); 
+        color: var(--color-white);
+    }
+
+/** DANGER **/
+    .text-danger {
+        color: var(--color-red) !important; 
+    }
+    .btn-danger {
+        background-color: var(--color-red); 
+        border-color: var(--color-red); 
+    }
+    .btn-danger:hover {
+        background-color: var(--color-darker-red); 
+        border-color: var(--color-darker-red); 
+    }
+
+/** BLUE **/
+    .btn-blue, .btn-blue:hover {
+        background-color: var(--color-blue);
+        color:white;
+        border-color: var(--color-blue);
+    }
+/** ORANGE **/
+    .btn-orange, .btn-orange:hover {
+        background-color: var(--color-orange);
+        border-color: var(--color-orange);
+        color:white;
+    }
+
+/** YELLOW **/
+    .btn-yellow, .btn-yellow:hover {
+        background-color: var(--color-yellow);
+        color:white;
+        border-color: var(--color-yellow);
+    }
+
+/** DARKBLUE **/
+    .btn-darkBlue, .btn-darkBlue:hover {
+        background-color: var(--color-dark-blue);
+        color:white;
+        border-color: var(--color-dark-blue);
+    }
+
 
 /* Border styles based on status */
 .border-left-to-do {
@@ -142,7 +190,7 @@ main {
 
 .idea-card:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border: 1px solid var(--color-orange); /* Adjust border width and color as needed */
+    border: 1px solid var(--color-orange); 
 }
 
 .project-card {
@@ -152,12 +200,12 @@ main {
 
 .project-card:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border: 1px solid var(--color-orange); /* Adjust border width and color as needed */
+    border: 1px solid var(--color-orange); 
 }
 
 .project-card {
-    height: 15vh; /* Adjust this value as needed */
-    overflow: hidden; /* Hide overflow */
+    height: 15vh; 
+    overflow: hidden; 
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -214,7 +262,7 @@ main {
 .myModalContentContainer {
     padding: 1rem;
     overflow-y: auto;
-    max-height: 70vh; /* Example: adjust max-height as needed */
+    max-height: 70vh;
 }
 
 /* Additional styles for cards, comments, etc. */
@@ -264,7 +312,7 @@ main {
 
 .reply-form {
     margin-top: 10px;
-    margin-left: 20px; /* Indent reply form */
+    margin-left: 20px;
 }
 
 .replies {

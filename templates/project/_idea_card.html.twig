@@ -2,9 +2,9 @@
 <div class="card mb-3 idea-card clickable-card" draggable="true" id="idea-{{ idea.id }}">
     <a href="#" class="card-link modalbox-comments" data-toggle="modal" data-target="#commentsModal" data-content-url="{{ path('idea_comments', {'id': idea.id}) }}">
         <div class="card-content">
-            <h5 class="card-title">{{ idea.title|capitalize }}</h5>
-            <p class="card-text">{{ idea.description|capitalize }}</p>
-            <div class="mt-0">
+            <h5 class="card-title">{{ idea.title }}</h5>
+            <p class="card-text">{{ idea.description }}</p>
+            <div class="flex align-items-center mt-0">
                 {% for tag in idea.tags %}
                     <span class="badge" style="background-color: {{ tag.color }}; color: #fff;">{{ tag.title }}</span>
                 {% endfor %}

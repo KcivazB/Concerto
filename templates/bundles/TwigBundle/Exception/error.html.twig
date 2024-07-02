@@ -1,0 +1,14 @@
+{# templates/error/error.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}An Error Occurred{% endblock %}
+
+{% block body %}
+<div class="container text-center mt-5">
+    <h1 class="display-1 text-warning">{{ status_code }}</h1>
+    <p class="lead">{{ status_text }}</p>
+    <a href="{{ path('dashboard') }}" class="btn btn-warning btn-lg mt-4">
+        <i class="bi bi-arrow-left"></i> Go Back to Home
+    </a>
+</div>
+{% endblock %}
