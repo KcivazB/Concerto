@@ -1,11 +1,12 @@
 :root {
     /* Define your custom colors */
     --color-beige: #FEFDEA;
-    --color-noir: #03030E;
+    --color-black: #03030E;
     --color-orange: #FC651B;
-    --color-bleu: #039EFB;
-    --color-jaune: #FEA701;
-    --color-bleu-canard: #395264;
+    --color-blue: #039EFB;
+    --color-yellow: #FEA701;
+    --color-dark-blue: #395264;
+    --color-gray: ##6c757d;
 
     /* Additional colors for text and background */
     --color-background: #f4f4f9;
@@ -68,7 +69,7 @@ main {
 }
 
 .progress-bar.bg-info, .progress-bar-animated.bg-info, .progress-bar-striped.bg-info{
-    background-color: var(--color-bleu) !important;
+    background-color: var(--color-blue) !important;
 }
 
 /* Button styles */
@@ -83,21 +84,21 @@ main {
 }
 
 .btn-secondary, .btn-secondary:hover {
-    background-color: var(--color-bleu);
-    border-color: var(--color-bleu);
+    background-color: var(--color-blue);
+    border-color: var(--color-blue);
 }
 
 .btn-yellow, .btn-yellow:hover {
-    background-color: var(--color-jaune);
+    background-color: var(--color-yellow);
     color:white;
-    border-color: var(--color-jaune);
+    border-color: var(--color-yellow);
     cursor: pointer;
 }
 
 .btn-darkBlue, .btn-darkBlue:hover {
-    background-color: var(--color-bleu-canard);
+    background-color: var(--color-dark-blue);
     color:white;
-    border-color: var(--color-bleu-canard);
+    border-color: var(--color-dark-blue);
     cursor: pointer;
 }
 
@@ -122,14 +123,14 @@ main {
 
 /* Text color update */
 .card-title, .kanban-card h5.card-title {
-    color: var(--color-noir);
+    color: var(--color-black);
     font-size: 1.25rem;
     margin-bottom: 0.5rem;
     font-weight: bold;
 }
 
 .card-text, p.card-text {
-    color: var(--color-noir);
+    color: var(--color-black);
     margin-bottom: 1rem;
 }
 
@@ -189,10 +190,6 @@ main {
 
 .idea-card .card-text {
     margin-bottom: 1rem;
-}
-
-.idea-card .badge {
-    margin-right: 0.5rem;
 }
 
 .idea-card .card-link {
@@ -257,7 +254,7 @@ main {
 }
 
 .comment-header .text-muted {
-    color: #6c757d;
+    color: var(--color-gray);
 }
 
 .reply-link {
@@ -276,6 +273,6 @@ main {
 }
 
 .toggle-replies-btn {
-    color: #007bff;
+    color: var(--color-blue);
     cursor: pointer;
 }
