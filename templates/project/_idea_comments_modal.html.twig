@@ -20,7 +20,7 @@
                     <div class="col">
                         <p>{{ idea.description|capitalize }}</p>
                         <div class="d-flex align-items-center">
-                            <img src="{{ idea.owner.avatar }}" alt="{{ idea.owner.username|title }}" class="rounded-circle mr-3" style="width: 50px; height: 50px;">
+                            <img src="{{ idea.owner.avatar ?? asset('images/concerto.png') }}" alt="{{ idea.owner.username|title }}" class="rounded-circle mr-3" style="width: 50px; height: 50px;">
                             <div>
                                 <strong class="mb-0">{{ idea.owner.username|title }}</strong>
                                 <small class="text-muted">Owner</small>
@@ -36,7 +36,7 @@
                         {% if level == 0 and comment.parentComment is empty %}
                             <div class="comment mb-3" style="margin-left: {{ level * 20 }}px; border-left: 3px solid #ccc;" id="comment-{{ comment.id }}">
                                 <div class="comment-header d-flex align-items-center">
-                                    <img src="{{ comment.owner.avatar }}" alt="{{ comment.owner.username|title }}" class="rounded-circle mr-2" style="width: 40px; height: 40px;">
+                                    <img src="{{ comment.owner.avatar ?? asset('images/concerto.png') }}" alt="{{ comment.owner.username|title }}" class="rounded-circle mr-2" style="width: 40px; height: 40px;">
                                     <div>
                                         <strong>{{ comment.owner.username|title }}</strong>
                                         <span class="text-muted ml-2">{{ comment.postDate|date('F j, Y, H:i') }}</span>

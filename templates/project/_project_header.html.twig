@@ -25,13 +25,36 @@
     </div>
 </div>
 
+<!-- Modal for confirming account deletion -->
+<div class="modal fade" id="deleteProjectModal" tabindex="-1" role="dialog" aria-labelledby="deleteAccountModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteProjectModalLabel">Confirm Deletion</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete your project?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteProjectBtn">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
 $(document).ready(function() {
     $('#deleteProjectBtn').on('click', function() {
-        var projectId = $(this).data('project-id');
-        if (confirm('Are you sure you want to delete this project?')) {
-            deleteProject(projectId);
-        }
+        $('#deleteProjectModal').modal('show');
+    });
+
+    $('#confirmDeleteProjectBtn').on('click', function() {
+        var projectId = $('#deleteProjectBtn').data('project-id');
+        deleteProject(projectId);
     });
 
     function deleteProject(projectId) {
@@ -39,16 +62,16 @@ $(document).ready(function() {
             url: '/projects/' + projectId,
             type: 'DELETE',
             headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token('delete' ~ project.id) }}',
                 'Content-Type': 'application/json'
             },
             success: function(response) {
                 window.location.href = '{{ path('dashboard') }}';
             },
             error: function(xhr) {
-                console.error('Failed to delete the project.');
+                console.error('Failed to delete the account.');
             }
         });
     }
 });
+
 </script>

@@ -3,44 +3,52 @@
 {% block title %}Profile{% endblock %}
 
 {% block body %}
-<div class="row justify-content-center mt-5">
-    <div class="col-md-8">
-        <div class="card mt-4">
-            <div class="card-header">
-                <h3 class="card-title">Profile Information</h3>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-3 text-center">
-                        <img src="{{ user.avatar }}" class="img-fluid rounded-circle" alt="Profile Picture">
-                        <div class="mt-3">
-                            {% if app.user.googleId %}
-                                <i class="bi bi-google text-success" style="font-size: 1.5rem;"></i>
-                            {% endif %}
-                            {% if app.user.githubId %}
-                                <i class="bi bi-github text-secondary" style="font-size: 1.5rem;"></i>
-                            {% endif %}
-                            {% if app.user.discordId %}
-                                <i class="bi bi-discord text-darkBlue" style="font-size: 1.5rem;"></i>
-                            {% endif %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card profile-card shadow-sm">
+                <div class="card-header text-white d-flex justify-content-between align-items-center">
+                    <h3 class="card-title mb-0">Profile Information</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4 text-center">
+                            <img src="{{ user.avatar ?? asset('images/concerto.png') }}" class="img-fluid rounded-circle profile-picture mb-3" alt="Profile Picture">
+                            <div>
+                                {% if app.user.googleId %}
+                                    <i class="bi bi-google text-success" style="font-size: 1.5rem;" data-toggle="tooltip" title="Google"></i>
+                                {% endif %}
+                                {% if app.user.githubId %}
+                                    <i class="bi bi-github text-secondary" style="font-size: 1.5rem;" data-toggle="tooltip" title="GitHub"></i>
+                                {% endif %}
+                                {% if app.user.discordId %}
+                                    <i class="bi bi-discord text-primary" style="font-size: 1.5rem;" data-toggle="tooltip" title="Discord"></i>
+                                {% endif %}
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-9">
-                        <h4>
-                            {% if app.user.firstName or app.user.lastName %}
-                                {{ (app.user.firstName ~ ' ' ~ app.user.lastName)|title }}
-                            {% else %}
-                                {{ app.user.username|title }}
-                            {% endif %}
-                        </h4>
-                        <p>Email: {{ user.email }}</p>
-                        <a class="btn btn-primary modalbox-edit-profile mt-3" id="editProfileBtn" data-toggle="modal" data-target="#profileEditModal" data-content-url="{{ path('profile_edit') }}">Edit Profile</a>
+                        <div class="col-md-8">
+                            <h4>{{ app.user.firstName and app.user.lastName ? (app.user.firstName ~ ' ' ~ app.user.lastName)|title : app.user.username|title }}</h4>
+                            <p><strong>Email:</strong> {{ user.email }}</p>
+                            <p><strong>Username:</strong> {{ user.username }}</p>
+                            <p><strong>First Name:</strong> {{ user.firstName }}</p>
+                            <p><strong>Last Name:</strong> {{ user.lastName }}</p>
+                            <div class="d-flex mt-3">
+                                <button type="button" class="btn btn-outline-secondary mr-2 modalbox-edit-profile" id="editProfileBtn" data-toggle="modal" data-target="#profileEditModal" data-content-url="{{ path('profile_edit') }}">
+                                    <i class="bi bi-pen"></i> Edit Account
+                                </button>
+                                <button type="button" class="btn btn-outline-danger" id="deleteUserBtn" data-user-id="{{ app.user.id }}">
+                                    <i class="bi bi-trash"></i> Delete Account
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Modal for editing profile -->
 <div class="modal fade" id="profileEditModal" tabindex="-1" role="dialog" aria-labelledby="profileEditModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -48,4 +56,82 @@
         </div>
     </div>
 </div>
+
+<!-- Modal for confirming account deletion -->
+<div class="modal fade" id="deleteAccountModal" tabindex="-1" role="dialog" aria-labelledby="deleteAccountModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteAccountModalLabel">Confirm Deletion</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete your account?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteAccountBtn">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('[data-toggle="tooltip"]').tooltip();
+
+    $('#deleteUserBtn').on('click', function() {
+        $('#deleteAccountModal').modal('show');
+    });
+
+    $('#confirmDeleteAccountBtn').on('click', function() {
+        var userId = $('#deleteUserBtn').data('user-id');
+        deleteAccount(userId);
+    });
+
+    function deleteAccount(userId) {
+        $.ajax({
+            url: '/profile/' + userId,
+            type: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            success: function(response) {
+                window.location.href = '{{ path('dashboard') }}';
+            },
+            error: function(xhr) {
+                console.error('Failed to delete the account.');
+            }
+        });
+    }
+});
+</script>
+
+<style scoped>
+    .profile-card {
+        border-radius: 15px;
+    }
+    .profile-picture {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border: 3px solid #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .card-header {
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+    }
+    .card-header h3 {
+        margin: 0;
+    }
+    .modal-header {
+        border-bottom: 1px solid #e9ecef;
+    }
+    .modal-footer {
+        border-top: 1px solid #e9ecef;
+    }
+</style>
 {% endblock %}

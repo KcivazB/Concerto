@@ -2,7 +2,7 @@
 {% for comment in comments %}
     <div class="comment mb-3 nested-comment" style="margin-left: {{ level * 20 }}px; border-left: 3px solid #ccc;" id="comment-{{ comment.id }}">
         <div class="comment-header d-flex align-items-center">
-            <img src="{{comment.owner.avatar}}" alt="{{ comment.owner.username|title }}" class="rounded-circle mr-2" style="width: 40px; height: 40px;">
+            <img src="{{comment.owner.avatar ?? asset('images/concerto.png') }}" alt="{{ comment.owner.username|title }}" class="rounded-circle mr-2" style="width: 40px; height: 40px;">
             <div>
                 <strong>{{ comment.owner.username|title }}</strong>
                 <span class="text-muted ml-2">{{ comment.postDate|date('F j, Y, H:i') }}</span>

@@ -13,7 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class ProfileController extends AbstractController
 {
     /**
-     * @Route("/profile", name="profile")
+     * @Route("/profile", name="profile", methods={"GET"})
      */
     public function index(): Response
     {
@@ -26,6 +26,26 @@ class ProfileController extends AbstractController
         return $this->render('profile/index.html.twig', [
             'user' => $user,
         ]);
+    }
+
+    /**
+     * @Route("/profile/{id}", name="delete_profile", methods={"DELETE"})
+     */
+    public function delete_profile($id, EntityManagerInterface $entityManager): Response
+    {
+        $user = $this->getUser(); // Assuming you have user authentication
+
+        if (!$user) {
+            throw $this->createNotFoundException('The user does not exist');
+        }
+
+        if($user->getId() !== $id){
+            throw $this->createNotFoundException("You cannot delete someone else's account !");
+        }
+        
+        $entityManager->getRepository(User::class)->delete($user);
+        
+        return $this->redirectToRoute('dashboard');
     }
 
     /**
