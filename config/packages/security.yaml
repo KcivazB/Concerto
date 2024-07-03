@@ -19,8 +19,8 @@ security:
                 target: /
 
     access_control:
-        - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/invitation/accept, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^//magic-link/use, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/connect, roles: IS_AUTHENTICATED_ANONYMOUSLY }        
-        - { path: ^/*, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        - { path: ^/invitation/accept, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        - { path: ^//magic-link/use, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        - { path: ^/connect, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }        
+        - { path: ^/*, roles: IS_AUTHENTICATED_FULLY, requires_channel: https }

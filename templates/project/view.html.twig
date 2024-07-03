@@ -2,31 +2,8 @@
     {% extends 'base.html.twig' %}
     {% block title %}Project View - {{ project.title }}{% endblock %}
     {% block body %}
-        {% include 'project/_project_header.html.twig' %}
-
-        <div class="row mt-4">
-            {% for status, status_label in {'to-do': 'To Do', 'in-progress': 'In Progress', 'done': 'Done'} %}
-                <div class="col-md-4 ">
-                    <div class="card mb-4 border-left-{{ status }} card-column" data-status="{{status}}" data-url="{{path('update_idea_status')}}">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <h4 class="card-title">{{ status_label|capitalize }}</h4>
-                            <a href="#" class="modalbox btn btn-primary btn-sm"
-                                data-toggle="modal"
-                                data-target="#ideaModal"
-                                data-content-url="{{ path('project_add_idea', {'status': status, 'id': project.id}) }}">
-                                <i class="bi bi-plus"></i> 
-                            </a>
-                        </div>
-                        <div class="card-body">
-                            {% for idea in project.ideas %}
-                                {% if idea.status.name == status %}
-                                    {% include 'project/_idea_card.html.twig' with { 'idea': idea } %}
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
+        <div id="projectContainer">
+            {% include 'project/_project_container.html.twig' %}
         </div>
 
         <div class="modal fade" id="ideaModal" tabindex="-1" role="dialog" aria-labelledby="ideaModalLabel" aria-hidden="true">
