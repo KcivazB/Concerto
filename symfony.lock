@@ -39,7 +39,7 @@
         ]
     },
     "knpuniversity/oauth2-client-bundle": {
-        "version": "2.17",
+        "version": "2.18",
         "recipe": {
             "repo": "github.com/symfony/recipes-contrib",
             "branch": "main",
@@ -101,7 +101,7 @@
         ]
     },
     "symfony/flex": {
-        "version": "1.21",
+        "version": "2.4",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "main",
@@ -144,7 +144,7 @@
         ]
     },
     "symfony/maker-bundle": {
-        "version": "1.43",
+        "version": "1.50",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "main",
