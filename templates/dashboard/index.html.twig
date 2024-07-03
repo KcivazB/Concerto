@@ -143,14 +143,19 @@
                     <h3 class="mb-3 col-md-4">
                         Shared Projects
                         <span class="toggle-section float-right" data-toggle="collapse" data-target="#sharedProjects" aria-expanded="true" aria-controls="sharedProjects">
-                            <i class="bi bi-chevron-up"></i>
+                            <i class="bi bi-chevron-down"></i>
                         </span>
                     </h3>
                     <div class="collapse" id="sharedProjects">
                         <div class="row">
                             {% if collabs is empty %}
-                                <div class="col">
-                                    <p class="text-muted">You don't have any shared projects yet.</p>
+                                 <div class="col text-center py-5">
+                                    <div class="card shadow-sm">
+                                        <div class="card-body">
+                                            <h5 class="card-title">No Shared Projects Yet</h5>
+                                            <p class="card-text">You haven't been invited to any projects yet. Once a teammate invites you to collaborate, you'll see the projects here.</p>
+                                        </div>
+                                    </div>
                                 </div>
                             {% else %}
                                 {% for collab in collabs %}
@@ -214,6 +219,10 @@
 
         .progress-bar {
             transition: width 0.3s ease-in-out;
+        }
+
+        .card-body .btn {
+            margin-top: 15px;
         }
     </style>
     
