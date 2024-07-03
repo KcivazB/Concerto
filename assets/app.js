@@ -32,7 +32,7 @@ $(document).ready(function() {
     });
 
     // Handle form submission inside modals
-    $('#ideaModal, #commentsModal, #editProjectModal, #editIdeaModal, #inviteMemberModal, #profileEditModal').on('submit', 'form', function(event) {
+    $('#ideaModal, #commentsModal, #projectModal, #editProjectModal, #editIdeaModal, #inviteMemberModal, #profileEditModal').on('submit', 'form', function(event) {
         event.preventDefault();
         
         var form = $(this);
@@ -46,20 +46,14 @@ $(document).ready(function() {
             url: form.attr('action'),
             data: form.serialize(),
             success: function(response) {
-                // Hide modal after successful submission
                 form.closest('.modal').modal('hide');
-                // Handle success response as needed
-                // For example, update the relevant part of the page
+                submitBtn.prop('disabled', false).html('Submit');
                 window.location.reload();
             },
             error: function(xhr) {
                 // Handle errors
                 console.log(xhr.responseText);
             },
-            complete: function() {
-                // Re-enable submit button after request completes (success or error)
-                submitBtn.prop('disabled', false).html('Submit');
-            }
         });
     });
 
