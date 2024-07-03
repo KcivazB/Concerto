@@ -8,52 +8,27 @@ $(document).ready(function() {
         });
     }
 
-    // Click event handlers for different modals
-    $('.modalbox').on('click', function(event) {
-        event.preventDefault();
-        var contentUrl = $(this).data('content-url');
-        openModal('#ideaModal', contentUrl, '#modalContent');
-    });
+    function bindModalEvents(selector, modalSelector, contentContainerSelector) {
+        $(document).on('click', selector, function(event) {
+            event.preventDefault();
+            var contentUrl = $(this).data('content-url');
+            openModal(modalSelector, contentUrl, contentContainerSelector);
+        });
+    }
 
-    $('.modalbox-comments').on('click', function(event) {
-        event.preventDefault();
-        var contentUrl = $(this).data('content-url');
-        openModal('#commentsModal', contentUrl, '#commentsModalContent');
-    });
-
-    $('.modalbox-project').on('click', function(event) {
-        event.preventDefault();
-        var contentUrl = $(this).data('content-url');
-        openModal('#projectModal', contentUrl, '#projectModalContent');
-    });
-
-    $('.modalbox-edit-project').on('click', function(event) {
-        event.preventDefault();
-        var contentUrl = $(this).data('content-url');
-        openModal('#editProjectModal', contentUrl, '#editProjectModalContent');
-    });
-
-    $('.modalbox-edit-idea').on('click', function(event) {
-        event.preventDefault();
-        var contentUrl = $(this).data('content-url');
-        openModal('#editIdeaModal', contentUrl, '#editIdeaModalContent');
-    });
-
-    $('.modalbox-invite-member').on('click', function(event) {
-        event.preventDefault();
-        var contentUrl = $(this).data('content-url');
-        openModal('#inviteMemberModal', contentUrl, '#inviteMemberModalContent');
-    });
+    function initializeModals() {
+        bindModalEvents('.modalbox', '#ideaModal', '#modalContent');
+        bindModalEvents('.modalbox-comments', '#commentsModal', '#commentsModalContent');
+        bindModalEvents('.modalbox-project', '#projectModal', '#projectModalContent');
+        bindModalEvents('.modalbox-edit-project', '#editProjectModal', '#editProjectModalContent');
+        bindModalEvents('.modalbox-edit-idea', '#editIdeaModal', '#editIdeaModalContent');
+        bindModalEvents('.modalbox-invite-member', '#inviteMemberModal', '#inviteMemberModalContent');
+        bindModalEvents('.modalbox-edit-profile', '#profileEditModal', '#profileEditModalContent');
+    }
 
     // Ensure only one modal is shown at a time
     $('.modal').on('hidden.bs.modal', function() {
         $(this).modal('hide');
-    });
-
-    $('.modalbox-edit-profile').on('click', function(event) {
-        event.preventDefault();
-        var contentUrl = $(this).data('content-url');
-        openModal('#profileEditModal', contentUrl, '#profileEditModalContent');
     });
 
     // Handle form submission inside modals
@@ -87,4 +62,6 @@ $(document).ready(function() {
             }
         });
     });
+
+    initializeModals();
 });
