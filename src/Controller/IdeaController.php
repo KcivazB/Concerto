@@ -8,6 +8,7 @@ use App\Form\IdeaType;
 use App\Entity\Comment;
 use App\Form\CommentType;
 use App\Repository\IdeaRepository;
+use App\Service\UsefulService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -127,30 +128,36 @@ class IdeaController extends AbstractController
     }
 
     /**
-     * @Route("/update-idea-status", name="update_idea_status", methods={"POST"})
-     */
-    public function updateIdeaStatus(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $ideaId = $request->request->get('ideaId');
-        $newStatus = $request->request->get('newStatus');
+ * @Route("/update-idea-status", name="update_idea_status", methods={"POST"})
+ */
+public function updateIdeaStatus(Request $request, EntityManagerInterface $entityManager, UsefulService $usefulService): Response
+{
+    $ideaId = $request->request->get('ideaId');
+    $newStatus = $request->request->get('newStatus');
 
-        // Fetch the Idea entity
-        $idea = $entityManager->getRepository(Idea::class)->find($ideaId);
-        if (!$idea) {
-            return new Response('Idea not found.', Response::HTTP_NOT_FOUND);
-        }
-
-        // Fetch the Status entity
-        $status = $entityManager->getRepository(Status::class)->findOneBy(['name' => $newStatus]);
-        if (!$status) {
-            return new Response('Status not found.', Response::HTTP_NOT_FOUND);
-        }
-
-        // Update idea status
-        $idea->setStatus($status);
-        $entityManager->flush();
-
-        return new Response('Idea status updated successfully.', Response::HTTP_OK);
+    // Fetch the Idea entity
+    $idea = $entityManager->getRepository(Idea::class)->find($ideaId);
+    if (!$idea) {
+        return new Response('Idea not found.', Response::HTTP_NOT_FOUND);
     }
+
+    // Fetch the Status entity
+    $status = $entityManager->getRepository(Status::class)->findOneBy(['name' => $newStatus]);
+    if (!$status) {
+        return new Response('Status not found.', Response::HTTP_NOT_FOUND);
+    }
+
+    // Update idea status
+    $idea->setStatus($status);
+    $entityManager->flush();
+
+    $project = $usefulService->getDataWithCompletion($idea->getProject());
+
+    // Render the project container template
+    return $this->render('project/_project_container.html.twig', [
+        'project' => $project,
+    ]);
+}
+
 
 }

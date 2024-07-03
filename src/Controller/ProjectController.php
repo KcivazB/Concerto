@@ -7,6 +7,7 @@ use App\Form\IdeaType;
 use App\Entity\Project;
 use App\Form\ProjectType;
 use App\Entity\Invitation;
+use App\Service\UsefulService;
 use Symfony\Component\Mime\Email;
 use App\Repository\IdeaRepository;
 use App\Repository\UserRepository;
@@ -60,7 +61,7 @@ class ProjectController extends AbstractController
     /**
      * @Route("/projects/{id}", name="project_view", methods={"GET"})
      */
-    public function view($id, Request $request, ProjectRepository $projectRepository, Security $security): Response
+    public function view($id, Request $request, ProjectRepository $projectRepository, Security $security, UsefulService $usefulService): Response
     {
         // Retrieve the project by ID
         $project = $projectRepository->find($id);
@@ -81,7 +82,7 @@ class ProjectController extends AbstractController
             throw $this->createAccessDeniedException('You are not authorized to view this project');
         }
         
-        $project = $this->getDataWithCompletion($project);
+        $project = $usefulService->getDataWithCompletion($project);
 
         // Render the project view template
         return $this->render('project/view.html.twig', [
@@ -264,28 +265,6 @@ class ProjectController extends AbstractController
         foreach ($ideas as $idea) {
             $idea->getComments()->initialize(); // Force initialization of comments
         }
-    }
-
-    private function getDataWithCompletion($project)
-    {
-        
-        $tasks = $project->getIdeas(); // Assuming tasks are fetched through a method like getTasks()
-
-        if ($tasks->isEmpty()) {
-            $project->completion = 0;
-        } else {
-            $completedTasks = $tasks->filter(function ($task) {
-                return $task->getStatus()->getName() === 'done'; // Adjust 'done' according to your task status logic
-            });
-
-            $completedCount = count($completedTasks);
-            $totalCount = count($tasks);
-            $completionPercentage = ($totalCount > 0) ? ($completedCount / $totalCount) * 100 : 0;
-
-            $project->completion = round($completionPercentage, 2); // Rounded to two decimal places
-        }
-
-        return $project;
     }
 
 

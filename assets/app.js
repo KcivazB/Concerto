@@ -75,7 +75,7 @@ $(document).ready(function() {
                 form.closest('.modal').modal('hide');
                 // Handle success response as needed
                 // For example, update the relevant part of the page
-                $('#refreshContent').html(response);
+                window.location.reload();
             },
             error: function(xhr) {
                 // Handle errors
@@ -87,45 +87,4 @@ $(document).ready(function() {
             }
         });
     });
-
-    $(document).ready(function() {
-        $('.card-column').droppable({
-            accept: '.idea-card',
-            drop: function(event, ui) {
-                var card = ui.draggable;
-                var ideaId = card.attr('id').replace('idea-', '');
-                var newStatus = $(this).data('status');
-    
-                // Update status via AJAX
-                $.ajax({
-                    url: updateIdeaStatusUrl, // Use the variable defined in Twig
-                    method: 'POST',
-                    data: {
-                        ideaId: ideaId,
-                        newStatus: newStatus
-                    },
-                    success: function(response) {
-                        // Optionally handle success response
-                        console.log('Idea status updated successfully.');
-                    },
-                    error: function(xhr, status, error) {
-                        // Optionally handle error
-                        console.error('Error updating idea status:', error);
-                    }
-                });
-    
-                // Change card's status visually
-                card.appendTo($(this).find('.card-body'));
-            }
-        });
-    
-        // Make idea cards draggable
-        $('.idea-card').draggable({
-            revert: 'invalid',
-            containment: 'document',
-            helper: 'clone',
-            cursor: 'move'
-        });
-    });
-
 });
