@@ -92,7 +92,7 @@ class MagicLinkController extends AbstractController
                 $this->addFlash('danger', $this->translator->trans('Failed to send email.'));
             }
 
-            return $this->redirectToRoute('dashboard');
+            return $this->redirectToRoute('home');
         }
 
         return $this->render('magic_link/request.html.twig');
@@ -122,6 +122,6 @@ class MagicLinkController extends AbstractController
         $this->entityManager->remove($magicLink);
         $this->entityManager->flush();
 
-        return $this->redirectToRoute('dashboard');
+        return $this->redirectToRoute('home');
     }
 }

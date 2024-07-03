@@ -12,6 +12,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class IdeaType extends AbstractType
 {
@@ -22,7 +23,7 @@ class IdeaType extends AbstractType
                 'label' => 'Title',
                 'attr' => ['class' => 'form-control mb-3'],
             ])
-            ->add('description', TextType::class, [
+            ->add('description', TextareaType::class, [
                 'label' => 'Description',
                 'attr' => ['class' => 'form-control mb-3'],
             ])

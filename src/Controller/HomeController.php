@@ -7,10 +7,10 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class DashboardController extends AbstractController
+class HomeController extends AbstractController
 {
     /**
-     * @Route("/", name="dashboard")
+     * @Route("/", name="home")
      */
     public function index(EntityManagerInterface $entityManager)
     {
@@ -26,7 +26,7 @@ class DashboardController extends AbstractController
         $projects = $this->getDataWithCompletion($projects);
         $collabs = $this->getDataWithCompletion($collabs);
 
-        return $this->render('dashboard/index.html.twig', [
+        return $this->render('home/index.html.twig', [
             'projects' => $projects,
             'collabs' => $collabs
         ]);

@@ -99,7 +99,7 @@ $(document).ready(function() {
                 'Content-Type': 'application/json'
             },
             success: function(response) {
-                window.location.href = '{{ path('dashboard') }}';
+                window.location.href = '{{ path('home') }}';
             },
             error: function(xhr) {
                 console.error('Failed to delete the account.');

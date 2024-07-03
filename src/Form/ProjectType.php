@@ -10,6 +10,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class ProjectType extends AbstractType
 {
@@ -17,7 +18,7 @@ class ProjectType extends AbstractType
     {
         $builder
         ->add('title', TextType::class)
-        ->add('description', TextType::class)
+        ->add('description', TextareaType::class)
         ->add('tags', EntityType::class, [
             'class' => Tag::class,
             'choice_label' => 'title',

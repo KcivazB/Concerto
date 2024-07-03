@@ -88,7 +88,7 @@ class GithubAuthenticator extends AbstractAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        return new RedirectResponse($this->router->generate('dashboard'));
+        return new RedirectResponse($this->router->generate('home'));
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response

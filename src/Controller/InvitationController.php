@@ -39,7 +39,7 @@ class InvitationController extends AbstractController
                 $entityManager->remove($invitation);
                 $entityManager->flush();
 
-                return $this->redirectToRoute('dashboard');
+                return $this->redirectToRoute('home');
             }
         } else {
             // New user
@@ -60,7 +60,7 @@ class InvitationController extends AbstractController
                 $entityManager->remove($invitation);
                 $entityManager->flush();
 
-                return $this->redirectToRoute('dashboard');
+                return $this->redirectToRoute('home');
             }
         }
 

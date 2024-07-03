@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Dashboard{% endblock %}
+{% block title %}Home{% endblock %}
 
 {% block body %}
     {% if not app.user %}
@@ -143,10 +143,10 @@
                     <h3 class="mb-3 col-md-4">
                         Shared Projects
                         <span class="toggle-section float-right" data-toggle="collapse" data-target="#sharedProjects" aria-expanded="true" aria-controls="sharedProjects">
-                            <i class="bi bi-chevron-down"></i>
+                            <i class="bi bi-chevron-up"></i>
                         </span>
                     </h3>
-                    <div class="collapse" id="sharedProjects">
+                    <div class="collapse show" id="sharedProjects">
                         <div class="row">
                             {% if collabs is empty %}
                                  <div class="col text-center py-5">

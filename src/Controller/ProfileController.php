@@ -45,7 +45,7 @@ class ProfileController extends AbstractController
         
         $entityManager->getRepository(User::class)->delete($user);
         
-        return $this->redirectToRoute('dashboard');
+        return $this->redirectToRoute('home');
     }
 
     /**
