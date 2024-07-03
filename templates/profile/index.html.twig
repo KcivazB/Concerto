@@ -96,16 +96,30 @@ $(document).ready(function() {
             url: '/profile/' + userId,
             type: 'DELETE',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
             success: function(response) {
-                window.location.href = '{{ path('home') }}';
+                // Log the entire response for debugging
+                console.log('Server response:', response);
+                
+                // Check if response is an object and contains the status property
+                if (typeof response === 'object' && response.status) {
+                    if (response.status === 'success') {
+                        window.location.href = '/'; // Redirect to home
+                    } else {
+                        console.error('Unexpected response status:', response.status);
+                    }
+                } else {
+                    console.error('Unexpected response format:', response);
+                }
             },
             error: function(xhr) {
-                console.error('Failed to delete the account.');
+                console.error('Failed to delete the account:', xhr.responseText);
             }
         });
     }
+
+
 });
 </script>
 

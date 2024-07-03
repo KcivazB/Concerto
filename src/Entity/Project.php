@@ -34,7 +34,7 @@ class Project
     private $description;
 
     /**
-     * @ORM\OneToMany(targetEntity=Idea::class, mappedBy="project")
+     * @ORM\OneToMany(targetEntity=Idea::class, mappedBy="project", cascade={"remove"})
      */
     private $ideas;
 
@@ -60,7 +60,7 @@ class Project
     private $isDelete;
 
     /**
-     * @ORM\OneToMany(targetEntity=Invitation::class, mappedBy="project")
+     * @ORM\OneToMany(targetEntity=Invitation::class, mappedBy="project", cascade={"remove"})
      */
     private $invitations;
 

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Entity\Project;
 use App\Entity\MagicLink;
+use App\Service\FactoryService;
 use Symfony\Component\Mime\Email;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,13 +29,16 @@ class MagicLinkController extends AbstractController
     private $translator;
     private $eventDispatcher;
 
-    public function __construct(EntityManagerInterface $entityManager, MailerInterface $mailer, UrlGeneratorInterface $urlGenerator, TranslatorInterface $translator, EventDispatcherInterface $eventDispatcher)
+    private $factoryService;
+
+    public function __construct(EntityManagerInterface $entityManager, MailerInterface $mailer, UrlGeneratorInterface $urlGenerator, TranslatorInterface $translator, EventDispatcherInterface $eventDispatcher, FactoryService $factoryService)
     {
         $this->entityManager = $entityManager;
         $this->mailer = $mailer;
         $this->urlGenerator = $urlGenerator;
         $this->translator = $translator;
         $this->eventDispatcher = $eventDispatcher;
+        $this->factoryService = $factoryService;
     }
 
     /**
@@ -48,24 +52,9 @@ class MagicLinkController extends AbstractController
             $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $email]);
 
             if (!$user) {
-                $user = new User();
-                $user->setEmail($email);
-                $user->setUsername('user_' . uniqid());
-                $randomPassword = sha1(random_bytes(18));
-                $user->setPassword($randomPassword);
-
-                $this->entityManager->persist($user);
-                $this->entityManager->flush();
-
-                $newProject = new Project();
-                $newProject
-                    ->setTitle("My first Project")
-                    ->setDescription("This is a simple description of your first project")
-                    ->setOwner($user)
-                    ->setStartDate(new \DateTime());
-
-                $this->entityManager->persist($newProject);
-                $this->entityManager->flush();
+                $username = substr('user_' . uniqid(), 0, 12);
+                $user = $this->factoryService->generateUser($username, $email);
+                $this->factoryService->generateProject($user);
             }
 
             $token = bin2hex(random_bytes(32));

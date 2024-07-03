@@ -49,17 +49,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $tags;
 
     /**
-     * @ORM\OneToMany(targetEntity=Idea::class, mappedBy="owner")
+     * @ORM\OneToMany(targetEntity=Idea::class, mappedBy="owner", cascade={"remove"})
      */
     private $ideas;
 
     /**
-     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="owner")
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="owner", cascade={"remove"})
      */
     private $comments;
 
     /**
-     * @ORM\OneToMany(targetEntity=Project::class, mappedBy="owner")
+     * @ORM\OneToMany(targetEntity=Project::class, mappedBy="owner", cascade={"remove"})
      */
     private $projects;
 

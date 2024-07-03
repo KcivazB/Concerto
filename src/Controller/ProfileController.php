@@ -8,7 +8,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class ProfileController extends AbstractController
 {
@@ -28,24 +30,39 @@ class ProfileController extends AbstractController
         ]);
     }
 
+
     /**
      * @Route("/profile/{id}", name="delete_profile", methods={"DELETE"})
      */
-    public function delete_profile($id, EntityManagerInterface $entityManager): Response
+    public function delete_profile($id, EntityManagerInterface $entityManager, TokenStorageInterface $tokenStorage, Request $request): Response
     {
         $user = $this->getUser(); // Assuming you have user authentication
 
         if (!$user) {
-            throw $this->createNotFoundException('The user does not exist');
+            return new JsonResponse(['status' => 'error', 'message' => 'The user does not exist'], Response::HTTP_NOT_FOUND);
         }
 
-        if($user->getId() !== $id){
-            throw $this->createNotFoundException("You cannot delete someone else's account !");
+        if($user->getId() != $id){
+            return new JsonResponse(['status' => 'error', 'message' => 'You cannot delete someone else\'s account!'], Response::HTTP_FORBIDDEN);
         }
-        
-        $entityManager->getRepository(User::class)->delete($user);
-        
-        return $this->redirectToRoute('home');
+
+        $single_user = $entityManager->getRepository(User::class)->find($id);
+
+        if (!$single_user) {
+            return new JsonResponse(['status' => 'error', 'message' => 'User not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        try {
+            $tokenStorage->setToken(null);
+            $request->getSession()->invalidate();
+
+            $entityManager->remove($single_user);
+            $entityManager->flush();
+
+            return new JsonResponse(['status' => 'success', 'message' => 'User deleted successfully'], Response::HTTP_OK);
+        } catch (\Exception $e) {
+            return new JsonResponse(['status' => 'error', 'message' => 'An error occurred while deleting the user'], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**
