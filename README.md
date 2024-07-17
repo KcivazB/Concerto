@@ -40,7 +40,7 @@ A live demo is available at: [concerto.virgilebaisnee.fr](https://concerto.virgi
 
 1. **Clone the repository**:
     ```bash
-    git clone https://github.com/ZavickB/concerto.git
+    git clone https://github.com/KcivazB/concerto.git
     cd concerto
     ```
 
