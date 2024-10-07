@@ -85,6 +85,7 @@ Please make sure to update tests as appropriate.
   - Docker support
   - Grafana integration
   - Tasks prioritizing
+  - i18n
 
 ### Grafana Integration
 
