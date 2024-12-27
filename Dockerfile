@@ -62,8 +62,8 @@ RUN echo "APP_ENV=${APP_ENV}" > /var/www/.env && \
 # Installation de Composer et des dépendances Symfony
 RUN composer install --no-dev --optimize-autoloader
 
-# Installation de Node.js pour les assets si nécessaire
-RUN curl -sL https://deb.nodesource.com/setup_16.x | bash \
+# Installation de Node.js pour les assets
+RUN curl -sL https://deb.nodesource.com/setup_20.x | bash \
     && apt-get install -y nodejs \
     && npm install
 
