@@ -1,4 +1,21 @@
-# Build stage for Symfony backend
+# Étape 1 : Construction des assets (CSS/JS avec Node.js)
+FROM node:current-slim AS assets_build
+
+WORKDIR /app
+
+# Copier uniquement les fichiers nécessaires pour npm/yarn
+COPY package.json package-lock.json ./
+
+# Installer les dépendances frontales
+RUN npm install --silent
+
+# Copier les fichiers nécessaires pour les builds frontaux
+COPY . .
+
+# Construire les assets (remplacez par votre commande de build si différente)
+RUN npm run build
+
+# Étape 2 : Build Symfony Backend
 FROM dunglas/frankenphp:1-php8.3 AS symfony_base
 
 WORKDIR /app
@@ -32,8 +49,11 @@ COPY --link composer.* symfony.* ./
 # Installer les dépendances PHP (production uniquement)
 RUN composer install --no-dev --prefer-dist --no-scripts --no-progress
 
-# Copier tout le reste des fichiers sources Symfony
+# Copier les fichiers sources Symfony
 COPY --link . ./
+
+# Copier les assets générés depuis l'étape 1
+COPY --from=assets_build /app/public/build ./public/build/
 
 # Optimisation pour la production
 RUN set -eux; \
