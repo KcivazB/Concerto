@@ -121,3 +121,32 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+# Variables d'environnement sensibles
+env:
+  OAUTH_GOOGLE_CLIENT_SECRET: ""
+  OAUTH_GITHUB_CLIENT_ID: ""
+  OAUTH_GITHUB_CLIENT_SECRET: ""
+  DISCORD_CLIENT_SECRET: ""
+  APP_SECRET: ""
+  MAILER_DSN: ""
+  DATABASE_URL: ""
+  APP_ENV: ""
+  DISCORD_CLIENT_ID: ""
+
+# Références aux secrets Kubernetes
+secrets:
+  OAUTH_GOOGLE_CLIENT_SECRET: my-secret-oauth-google-client-secret
+  OAUTH_GITHUB_CLIENT_ID: my-secret-oauth-github-client-id
+  OAUTH_GITHUB_CLIENT_SECRET: my-secret-oauth-github-client-secret
+  DISCORD_CLIENT_SECRET: my-secret-discord-client-secret
+  APP_SECRET: my-secret-app-secret
+  MAILER_DSN: my-secret-mailer-dsn
+  DATABASE_URL: my-secret-database-url
+  APP_ENV: my-secret-app-env
+  DISCORD_CLIENT_ID: my-secret-discord-client-id
+
+# Utilisation des secrets Kubernetes comme variables d'environnement
+envFrom:
+  - secretRef:
+      name: my-secrets-name  # Le nom du secret Kubernetes
