@@ -20,21 +20,31 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 WORKDIR /var/www
 COPY . /var/www
 
-# Définir les variables d'environnement avec des valeurs par défaut
-# Ces variables peuvent être injectées par Helm au moment du déploiement
-ENV APP_ENV=${APP_ENV:-prod}
-ENV APP_SECRET=${APP_SECRET:-your_default_secret}
-ENV DATABASE_URL=${DATABASE_URL:-mysql://app:!ChangeMe!@127.0.0.1:3306/app?serverVersion=8&charset=utf8mb4}
-ENV MESSENGER_TRANSPORT_DSN=${MESSENGER_TRANSPORT_DSN:-doctrine://default?auto_setup=0}
-ENV MAILER_DSN=${MAILER_DSN:-smtp://address:password@host:port}
+# Déclaration des ARG (en cas de valeurs par défaut à définir)
+ARG APP_ENV=prod
+ARG APP_SECRET=your_default_secret
+ARG DATABASE_URL="mysql://app:!ChangeMe!@127.0.0.1:3306/app?serverVersion=8&charset=utf8mb4"
+ARG MESSENGER_TRANSPORT_DSN="doctrine://default?auto_setup=0"
+ARG MAILER_DSN="smtp://address:password@host:port"
+ARG OAUTH_GOOGLE_CLIENT_ID=YOUR_CLIENT_ID
+ARG OAUTH_GOOGLE_CLIENT_SECRET=YOUR_CLIENT_SECRET
+ARG OAUTH_GITHUB_CLIENT_ID=YOUR_CLIENT_ID
+ARG OAUTH_GITHUB_CLIENT_SECRET=YOUR_CLIENT_SECRET
+ARG DISCORD_CLIENT_ID=YOUR_CLIENT_ID
+ARG DISCORD_CLIENT_SECRET=YOUR_CLIENT_SECRET
 
-# Variables OAuth
-ENV OAUTH_GOOGLE_CLIENT_ID=${OAUTH_GOOGLE_CLIENT_ID:-YOUR_CLIENT_ID}
-ENV OAUTH_GOOGLE_CLIENT_SECRET=${OAUTH_GOOGLE_CLIENT_SECRET:-YOUR_CLIENT_SECRET}
-ENV OAUTH_GITHUB_CLIENT_ID=${OAUTH_GITHUB_CLIENT_ID:-YOUR_CLIENT_ID}
-ENV OAUTH_GITHUB_CLIENT_SECRET=${OAUTH_GITHUB_CLIENT_SECRET:-YOUR_CLIENT_SECRET}
-ENV DISCORD_CLIENT_ID=${DISCORD_CLIENT_ID:-YOUR_CLIENT_ID}
-ENV DISCORD_CLIENT_SECRET=${DISCORD_CLIENT_SECRET:-YOUR_CLIENT_SECRET}
+# Définir les ENV via les ARG
+ENV APP_ENV=${APP_ENV}
+ENV APP_SECRET=${APP_SECRET}
+ENV DATABASE_URL=${DATABASE_URL}
+ENV MESSENGER_TRANSPORT_DSN=${MESSENGER_TRANSPORT_DSN}
+ENV MAILER_DSN=${MAILER_DSN}
+ENV OAUTH_GOOGLE_CLIENT_ID=${OAUTH_GOOGLE_CLIENT_ID}
+ENV OAUTH_GOOGLE_CLIENT_SECRET=${OAUTH_GOOGLE_CLIENT_SECRET}
+ENV OAUTH_GITHUB_CLIENT_ID=${OAUTH_GITHUB_CLIENT_ID}
+ENV OAUTH_GITHUB_CLIENT_SECRET=${OAUTH_GITHUB_CLIENT_SECRET}
+ENV DISCORD_CLIENT_ID=${DISCORD_CLIENT_ID}
+ENV DISCORD_CLIENT_SECRET=${DISCORD_CLIENT_SECRET}
 
 # Créer le fichier .env avec les variables d'environnement
 RUN echo "APP_ENV=${APP_ENV}" > /var/www/.env && \
@@ -52,7 +62,7 @@ RUN echo "APP_ENV=${APP_ENV}" > /var/www/.env && \
 # Installation de Composer et des dépendances Symfony
 RUN composer install --no-dev --optimize-autoloader
 
-# Installation de Node.js pour les assets
+# Installation de Node.js pour les assets si nécessaire
 RUN curl -sL https://deb.nodesource.com/setup_16.x | bash \
     && apt-get install -y nodejs \
     && npm install
