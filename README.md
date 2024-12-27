@@ -22,6 +22,10 @@ Concerto is designed to be a lightweight, intuitive tool for managing your ideas
 - **User Management**: Securely store user information such as email, Google ID, Discord ID, GitHub ID, and username.
 - **Status Tracking**: Track the progress of ideas with statuses like To Do, In Progress, and Done.
 - **Responsive Design**: Optimized for both desktop and mobile views.
+  
+## Demo
+
+A live demo is available at: [concerto.virgilebaisnee.fr](https://concerto.virgilebaisnee.fr)
 
 ## Installation
 
@@ -36,7 +40,7 @@ Concerto is designed to be a lightweight, intuitive tool for managing your ideas
 
 1. **Clone the repository**:
     ```bash
-    git clone https://github.com/ZavickB/concerto.git
+    git clone https://github.com/KcivazB/concerto.git
     cd concerto
     ```
 
@@ -75,31 +79,21 @@ Concerto is designed to be a lightweight, intuitive tool for managing your ideas
 
 Once the server is running, open your browser and navigate to `http://localhost:8000`. You should see the Concerto landing page. From here, you can register a new user, log in, and start managing your ideas.
 
-## Contributing
-
-Contributions are welcome! Please follow these steps to contribute:
-
-1. Fork the repository.
-2. Create a new branch (`git checkout -b feature-branch`).
-3. Make your changes and commit them (`git commit -m 'Add some feature'`).
-4. Push to the branch (`git push origin feature-branch`).
-5. Create a new Pull Request.
-
 Please make sure to update tests as appropriate.
 
 ## Future Additions
+  - Docker support
+  - Grafana integration
+  - Tasks prioritizing
+  - i18n
 
 ### Grafana Integration
 
-We plan to integrate Grafana for advanced analytics and monitoring. This will allow users to visualize data and track metrics more effectively.
+I plan to integrate Grafana for advanced analytics and monitoring. This will allow users to visualize data and track metrics more effectively.
 
 ### Docker Support
 
 Docker support is coming soon! This will allow you to run the project in a containerized environment, making it easier to deploy and manage.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
