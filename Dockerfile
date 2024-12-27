@@ -26,6 +26,10 @@ RUN curl -sL https://deb.nodesource.com/setup_16.x | bash \
     && apt-get install -y nodejs \
     && npm install
 
+# Définition des variables d'environnement pour Symfony
+ENV APP_ENV=prod
+ENV SYMFONY_ENV=prod
+
 # Expose le port 9000 pour PHP-FPM
 EXPOSE 9000
 
