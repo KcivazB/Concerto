@@ -1,15 +1,3 @@
-# Build stage for Vue.js frontend
-FROM node:current-slim AS frontend_build
-
-WORKDIR /app
-
-# Copie uniquement les fichiers nécessaires pour maximiser le cache
-COPY package*.json ./
-RUN npm install --silent
-
-COPY . .
-RUN npm run build
-
 # Build stage for Symfony backend
 FROM dunglas/frankenphp:1-php8.3 AS symfony_base
 
@@ -38,14 +26,14 @@ RUN set -eux; \
 ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV PHP_INI_SCAN_DIR=":$PHP_INI_DIR/app.conf.d"
 
-COPY --link composer.* symfony.* ./
+# Copier uniquement les fichiers nécessaires pour composer
+COPY --link composer.* symfony.* ./ 
+
+# Installer les dépendances PHP (production uniquement)
 RUN composer install --no-dev --prefer-dist --no-scripts --no-progress
 
-# Copie des sources Symfony
+# Copier tout le reste des fichiers sources Symfony
 COPY --link . ./
-
-# Copie des fichiers générés par le frontend
-COPY --from=frontend_build /app/dist ./public/
 
 # Optimisation pour la production
 RUN set -eux; \
@@ -61,7 +49,11 @@ COPY --link .docker/frankenphp/conf.d/10-app.ini $PHP_INI_DIR/app.conf.d/
 COPY --link --chmod=755 .docker/frankenphp/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 COPY --link .docker/frankenphp/Caddyfile /etc/caddy/Caddyfile
 
+# Configuration du point d'entrée
 ENTRYPOINT ["docker-entrypoint"]
 
+# Configuration de la vérification de santé
 HEALTHCHECK --start-period=60s CMD curl -f http://localhost:2019/metrics || exit 1
+
+# Commande par défaut
 CMD [ "frankenphp", "run", "--config", "/etc/caddy/Caddyfile" ]
