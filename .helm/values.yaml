@@ -1,4 +1,4 @@
-# Default values for portfolio.
+# Default values for concerto.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -7,11 +7,10 @@ replicaCount: 1
 
 # This sets the container image more information can be found here: https://kubernetes.io/docs/concepts/containers/images/
 image:
-  repository: ghcr.io/kcivazb/concerto
-  # This sets the pull policy for images.
-  pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  repository: ghcr.io/kcivazb/concerto       # Remplace par l'URL de ton registry Docker
+  tag: latest                        # Version de l'image Docker
+  pullPolicy: Always
+
 
 # This is for the secretes for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
 imagePullSecrets: []
@@ -22,7 +21,7 @@ fullnameOverride: ""
 #This section builds out the service account more information can be found here: https://kubernetes.io/docs/concepts/security/service-accounts/
 serviceAccount:
   # Specifies whether a service account should be created
-  create: false
+  create: true
   # Automatically mount a ServiceAccount's API credentials?
   automount: true
   # Annotations to add to the service account
@@ -54,7 +53,7 @@ service:
   # This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
   type: ClusterIP
   # This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
-  port: 8000
+  port: 80
 
 # This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/ingress/
 ingress:
@@ -122,31 +121,15 @@ tolerations: []
 
 affinity: {}
 
-# Variables d'environnement sensibles
 env:
-  OAUTH_GOOGLE_CLIENT_SECRET: ""
-  OAUTH_GITHUB_CLIENT_ID: ""
-  OAUTH_GITHUB_CLIENT_SECRET: ""
-  DISCORD_CLIENT_SECRET: ""
-  APP_SECRET: ""
-  MAILER_DSN: ""
-  DATABASE_URL: ""
-  APP_ENV: ""
-  DISCORD_CLIENT_ID: ""
-
-# Références aux secrets Kubernetes
-secrets:
-  OAUTH_GOOGLE_CLIENT_SECRET: my-secret-oauth-google-client-secret
-  OAUTH_GITHUB_CLIENT_ID: my-secret-oauth-github-client-id
-  OAUTH_GITHUB_CLIENT_SECRET: my-secret-oauth-github-client-secret
-  DISCORD_CLIENT_SECRET: my-secret-discord-client-secret
-  APP_SECRET: my-secret-app-secret
-  MAILER_DSN: my-secret-mailer-dsn
-  DATABASE_URL: my-secret-database-url
-  APP_ENV: my-secret-app-env
-  DISCORD_CLIENT_ID: my-secret-discord-client-id
-
-# Utilisation des secrets Kubernetes comme variables d'environnement
-envFrom:
-  - secretRef:
-      name: my-secrets-name  # Le nom du secret Kubernetes
+  APP_ENV: prod
+  APP_SECRET: your_default_secret
+  DATABASE_URL: "mysql://app:!ChangeMe!@db:3306/app?serverVersion=8&charset=utf8mb4"
+  MESSENGER_TRANSPORT_DSN: "doctrine://default?auto_setup=0"
+  MAILER_DSN: "smtp://address:password@host:port"
+  OAUTH_GOOGLE_CLIENT_ID: YOUR_CLIENT_ID
+  OAUTH_GOOGLE_CLIENT_SECRET: YOUR_CLIENT_SECRET
+  OAUTH_GITHUB_CLIENT_ID: YOUR_CLIENT_ID
+  OAUTH_GITHUB_CLIENT_SECRET: YOUR_CLIENT_SECRET
+  DISCORD_CLIENT_ID: YOUR_CLIENT_ID
+  DISCORD_CLIENT_SECRET: YOUR_CLIENT_SECRET

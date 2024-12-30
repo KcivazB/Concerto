@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "portfolio.fullname" . }}
+  name: {{ include "concerto.fullname" . }}
   labels:
-    {{- include "portfolio.labels" . | nindent 4 }}
+    {{- include "concerto.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "portfolio.selectorLabels" . | nindent 6 }}
+      {{- include "concerto.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -18,7 +18,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "portfolio.labels" . | nindent 8 }}
+        {{- include "concerto.labels" . | nindent 8 }}
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -27,7 +27,7 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "portfolio.serviceAccountName" . }}
+      serviceAccountName: {{ include "concerto.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -40,6 +40,29 @@ spec:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
+          env:
+            - name: APP_ENV
+              value: {{ .Values.env.APP_ENV | quote }}
+            - name: APP_SECRET
+              value: {{ .Values.env.APP_SECRET | quote }}
+            - name: DATABASE_URL
+              value: {{ .Values.env.DATABASE_URL | quote }}
+            - name: MESSENGER_TRANSPORT_DSN
+              value: {{ .Values.env.MESSENGER_TRANSPORT_DSN | quote }}
+            - name: MAILER_DSN
+              value: {{ .Values.env.MAILER_DSN | quote }}
+            - name: OAUTH_GOOGLE_CLIENT_ID
+              value: {{ .Values.env.OAUTH_GOOGLE_CLIENT_ID | quote }}
+            - name: OAUTH_GOOGLE_CLIENT_SECRET
+              value: {{ .Values.env.OAUTH_GOOGLE_CLIENT_SECRET | quote }}
+            - name: OAUTH_GITHUB_CLIENT_ID
+              value: {{ .Values.env.OAUTH_GITHUB_CLIENT_ID | quote }}
+            - name: OAUTH_GITHUB_CLIENT_SECRET
+              value: {{ .Values.env.OAUTH_GITHUB_CLIENT_SECRET | quote }}
+            - name: DISCORD_CLIENT_ID
+              value: {{ .Values.env.DISCORD_CLIENT_ID | quote }}
+            - name: DISCORD_CLIENT_SECRET
+              value: {{ .Values.env.DISCORD_CLIENT_SECRET | quote }}
           livenessProbe:
             {{- toYaml .Values.livenessProbe | nindent 12 }}
           readinessProbe:

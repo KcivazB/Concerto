@@ -60,7 +60,7 @@ RUN echo "APP_ENV=${APP_ENV}" > /var/www/.env && \
     echo "DISCORD_CLIENT_SECRET=${DISCORD_CLIENT_SECRET}" >> /var/www/.env
 
 # Installation de Composer et des dépendances Symfony
-RUN composer install --no-dev --optimize-autoloader
+RUN COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --optimize-autoloader
 
 # Installation de Node.js pour les assets
 RUN curl -sL https://deb.nodesource.com/setup_20.x | bash \
